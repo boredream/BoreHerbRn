@@ -1,93 +1,61 @@
-import React, {Component} from 'react'
-import {AppRegistry, StyleSheet, View, Text, Image, ListView} from 'react-native'
-import Divider from './app/component/Divider'
-import HerbItem from './app/component/HerbItem'
+import React from 'react';
+import {
+    AppRegistry,
+    Text,
+    View,
+    Button
+} from 'react-native';
+import {
+    StackNavigator,
+    NavigationActions,
+} from 'react-navigation';
 
-export default class Launcher extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            dataSource: new ListView.DataSource({
-                rowHasChanged:(row1, row2) => row1 !== row2
-            })
-        };
-    }
-
-    // 组件加载完毕
-    componentDidMount() {
-        let herbs = require('./mock/homeData.json');
-        this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(herbs)
-        })
-    }
-
-    // 渲染组件
+class ProfileScreen extends React.Component {
+    static navigationOptions = ({navigation}) => ({
+        title: navigation.state.params.name,
+    });
     render() {
-        // if(!this.state.herbs) {
-        //     return this.renderLoadingView();
-        // }
-
+        const { goBack } = this.props.navigation;
         return (
-            <View style={{flex: 1, backgroundColor: 'white'}}>
-                <View style={{
-                    height: 44,
-                    paddingLeft: 20,
-                    paddingRight: 20,
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center'
-                }}>
-                    <Image
-                        style={ styles.icon }
-                        source={require('./images/icon_side.png')}
-                    />
-
-                    <Text style={{
-                        fontSize: 16,
-                        color: '#333333'
-                    }}>
-                        首页
-                    </Text>
-
-                    <Image
-                        style={ styles.icon }
-                        source={require('./images/icon_search.png')}
-                    />
-                </View>
-
-                <Divider/>
-
-                <ListView
-                    dataSource={this.state.dataSource}
-                    renderRow={(rowData) =>
-                        <HerbItem
-                            herb={ rowData }
-                        />
-                    }
-                    style={styles.listView}
-                    />
-
-            </View>
-        )
+            <Button
+                title="Go back"
+                onPress={() => goBack()}
+            />
+        );
     }
 }
 
-const styles = StyleSheet.create({
-    subHeader: {
-        fontSize: 16,
-        color: '#333333'
-    },
+class MainScreen extends React.Component {
+    static navigationOptions = {
+        title: 'Welcome',
+    };
 
-    caption: {
-        fontSize: 12,
-        color: '#666666'
-    },
+    _toMain = () => {
+        const resetActions = NavigationActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({routeName: 'Profile'})]
+        });
+        this.props.navigation.dispatch(resetActions);
+    };
 
-    icon: {
-        width: 14,
-        height: 14
+    render() {
+        return (
+            <Button title="登录" onPress={this._toMain}/>
+        );
     }
-})
+}
 
-AppRegistry.registerComponent('BoreHerbRn', () => Launcher);
+const App = StackNavigator({
+    Main: {screen: MainScreen},
+    Profile: {screen: ProfileScreen},
+}, {
+    initialRouteName: 'Main',
+    navigationOptions: {
+        headerTintColor: '#51c4fe',
+        headerStyle: {backgroundColor: "white"},
+        headerTitleStyle: {alignSelf: 'center'},
+    },
+});
+
+// if you are using create-react-native-app you don't need this line
+AppRegistry.registerComponent('BoreHerbRn', () => App);

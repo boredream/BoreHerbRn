@@ -1,45 +1,52 @@
 import React, { Component } from 'react'
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet, TouchableNativeFeedback } from 'react-native'
 
 export default class HerbItem extends Component {
     constructor(props) {
         super(props)
     }
 
+    toHerbDetail() {
+
+    }
+
     render() {
         return(
-            <View style={{
-                height: 118,
-                backgroundColor: '#f0f0f0',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginLeft: 10,
-                marginRight: 10,
-                marginTop: 14,
-                paddingLeft: 42,
-                paddingRight: 42
-            }}>
-
+            <TouchableNativeFeedback
+                onPress={ this.toHerbDetail() }
+            >
                 <View style={{
-                    justifyContent: 'center'
+                    backgroundColor: '#f0f0f0',
+                    height: 118,
+                    marginLeft: 10,
+                    marginRight: 10,
+                    marginTop: 14,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    paddingLeft: 42,
+                    paddingRight: 42
                 }}>
-                    <Text style={ styles.subHeader }>
-                        { this.props.herb.name }
-                    </Text>
-                    <Text style={ styles.caption }>
-                        { this.props.herb.pinyin }
-                    </Text>
-                </View>
+                    <View style={{
+                        justifyContent: 'center'
+                    }}>
+                        <Text style={ styles.subHeader }>
+                            { this.props.herb.name }
+                        </Text>
+                        <Text style={ styles.caption }>
+                            { this.props.herb.pinyin }
+                        </Text>
+                    </View>
 
-                <Image
-                    style={{
-                        width:80,
-                        height:80,
-                        borderRadius: 40
-                    }}
-                    source={{uri: this.props.herb.image}} />
-            </View>
+                    <Image
+                        style={{
+                            width:80,
+                            height:80,
+                            borderRadius: 40
+                        }}
+                        source={{uri: this.props.herb.image}} />
+                </View>
+            </TouchableNativeFeedback>
         )
     }
 

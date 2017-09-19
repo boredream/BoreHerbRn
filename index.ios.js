@@ -1,1 +1,1 @@
-import './laucher'
+import './app/laucher'
