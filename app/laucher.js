@@ -1,9 +1,10 @@
-import React from 'react';
-import {AppRegistry, TouchableOpacity, View, TouchableNativeFeedback, Image} from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import React, {Component} from 'react';
+import {AppRegistry, Text, View, TouchableNativeFeedback, TouchableOpacity, Image} from 'react-native';
+import { StackNavigator, DrawerNavigator } from 'react-navigation';
 import Home from './pages/home';
 import HerbDetail from './pages/herbDetail';
 import SearchHerb from './pages/searchHerb';
+import Mine from './pages/mine';
 import {commonStyles} from './styles/styles'
 
 const App = StackNavigator({
@@ -12,20 +13,22 @@ const App = StackNavigator({
         navigationOptions: ({navigation}) => ({
             headerTitle: '首页',
             headerTitleStyle: {
-                alignSelf: 'center'
+                alignSelf: 'center',
+                fontSize: 16,
             },
             headerLeft:
-                <TouchableNativeFeedback>
+                <TouchableNativeFeedback onPress={() => {navigation.navigate('DrawerOpen')}}>
                     <View style={commonStyles.iconContainer}>
                         <Image style={ commonStyles.icon } source={require('../images/icon_side.png')} />
                     </View>
                 </TouchableNativeFeedback>,
             headerRight:
-                <TouchableNativeFeedback onPress={ ()=> {navigation.navigate('SearchHerb') }}>
+                <TouchableNativeFeedback onPress={ ()=> {navigation.navigate('HerbDetail') }}>
                     <View style={commonStyles.iconContainer}>
                         <Image style={ commonStyles.icon } source={require('../images/icon_search.png')} />
                     </View>
                 </TouchableNativeFeedback >,
+            drawerLabel: 'SearchHerb',
         }),
     },
     HerbDetail: {
@@ -34,4 +37,22 @@ const App = StackNavigator({
     SearchHerb: { screen: SearchHerb },
 });
 
-AppRegistry.registerComponent('BoreHerbRn', () => App);
+class DrawerContainer extends Component {
+
+    render() {
+        return(
+            <App/>
+        )
+    }
+}
+
+const DrawerApp = DrawerNavigator(
+    {
+        DrawerContainer: { screen: DrawerContainer },
+    },{
+        drawerWidth: 256,
+        drawerPosition:'left',
+        contentComponent: Mine
+    })
+
+AppRegistry.registerComponent('BoreHerbRn', () => DrawerApp);
