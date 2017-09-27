@@ -6,16 +6,13 @@ export default class HerbItem extends Component {
         super(props)
     }
 
-    clickItem() {
-        alert("alert:" + this.props.navigation)
+    onItemClick() {
         this.props.navigation.navigate('HerbDetail')
     }
 
     render() {
         return(
-            <TouchableNativeFeedback
-                onPress={ this.clickItem() }
-            >
+            <TouchableNativeFeedback onPress={ this.onItemClick.bind(this) }>
                 <View style={{
                     backgroundColor: '#f0f0f0',
                     height: 118,
@@ -34,6 +31,7 @@ export default class HerbItem extends Component {
                         <Text style={ styles.subHeader }>
                             { this.props.herb.name }
                         </Text>
+
                         <Text style={ styles.caption }>
                             { this.props.herb.pinyin }
                         </Text>

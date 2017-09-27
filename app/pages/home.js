@@ -1,30 +1,21 @@
 import React, {Component} from 'react'
-import {StyleSheet, View, Text, Image, ListView, TouchableNativeFeedback} from 'react-native'
-import Divider from '../component/Divider'
+import { View, FlatList} from 'react-native'
 import HerbItem from '../component/HerbItem'
 
 export default class Home extends Component {
 
-    static navigationOptions = {
-        title: 'Home',
-        leftButtonTitle:'toTest'
-    };
-
     constructor(props) {
         super(props);
         this.state = {
-            dataSource: new ListView.DataSource({
-                rowHasChanged:(row1, row2) => row1 !== row2
-            })
+            herbs: null
         };
     }
 
     // 组件加载完毕
     componentDidMount() {
-        let herbs = require('../../mock/homeData.json');
-        this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(herbs)
-        })
+        this.setState((state) => ({
+            herbs: require('../../mock/homeData.json')
+        }));
     }
 
     // 渲染组件
@@ -35,66 +26,18 @@ export default class Home extends Component {
 
         return (
             <View style={{flex: 1, backgroundColor: 'white'}}>
-                <View style={{
-                    height: 44,
-                    paddingLeft: 20,
-                    paddingRight: 20,
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center'
-                }}>
-
-                    <TouchableNativeFeedback>
-                        <Image
-                            style={ styles.icon }
-                            source={require('../../images/icon_side.png')}
-                        />
-                    </TouchableNativeFeedback>
-
-                    <Text style={{
-                        fontSize: 16,
-                        color: '#333333'
-                    }}>
-                        首页
-                    </Text>
-
-                    <Image
-                        style={ styles.icon }
-                        source={require('../../images/icon_search.png')}
-                    />
-                </View>
-
-                <Divider/>
-
-                <ListView
-                    dataSource={this.state.dataSource}
-                    renderRow={(rowData) =>
-                        <HerbItem
-                            herb={ rowData }
-                            navigation = { this.props.navigation }
-                        />
-                    }
-                    style={styles.listView}
+                <FlatList
+                    data={ this.state.herbs }
+                    renderItem={({item})=>{
+                        return (
+                            <HerbItem
+                                herb={ item }
+                                navigation={ this.props.navigation }
+                            />
+                        )
+                    }}
                 />
-
             </View>
         )
     }
 }
-
-const styles = StyleSheet.create({
-    subHeader: {
-        fontSize: 16,
-        color: '#333333'
-    },
-
-    caption: {
-        fontSize: 12,
-        color: '#666666'
-    },
-
-    icon: {
-        width: 14,
-        height: 14
-    }
-})
