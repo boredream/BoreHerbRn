@@ -7,6 +7,7 @@ export default class Home extends Component {
 
     static navigationOptions = {
         title: 'Home',
+        leftButtonTitle:'toTest'
     };
 
     constructor(props) {
@@ -32,7 +33,6 @@ export default class Home extends Component {
         //     return this.renderLoadingView();
         // }
 
-        const { navigate } = this.props.navigation;
         return (
             <View style={{flex: 1, backgroundColor: 'white'}}>
                 <View style={{
@@ -44,8 +44,7 @@ export default class Home extends Component {
                     alignItems: 'center'
                 }}>
 
-                    <TouchableNativeFeedback
-                        onPress={() => navigate('HerbDetail')}>
+                    <TouchableNativeFeedback>
                         <Image
                             style={ styles.icon }
                             source={require('../../images/icon_side.png')}
@@ -72,6 +71,7 @@ export default class Home extends Component {
                     renderRow={(rowData) =>
                         <HerbItem
                             herb={ rowData }
+                            navigation = { this.props.navigation }
                         />
                     }
                     style={styles.listView}

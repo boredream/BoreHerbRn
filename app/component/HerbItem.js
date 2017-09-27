@@ -6,14 +6,15 @@ export default class HerbItem extends Component {
         super(props)
     }
 
-    toHerbDetail() {
-
+    clickItem() {
+        alert("alert:" + this.props.navigation)
+        this.props.navigation.navigate('HerbDetail')
     }
 
     render() {
         return(
             <TouchableNativeFeedback
-                onPress={ this.toHerbDetail() }
+                onPress={ this.clickItem() }
             >
                 <View style={{
                     backgroundColor: '#f0f0f0',
