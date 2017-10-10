@@ -2,12 +2,9 @@ import React, { Component } from 'react'
 import { View, Text, Image, StyleSheet, TouchableNativeFeedback } from 'react-native'
 
 export default class HerbItem extends Component {
-    constructor(props) {
-        super(props)
-    }
 
     onItemClick() {
-        this.props.navigation.navigate('HerbDetail')
+        this.props.navigation.navigate('HerbDetail', {herb: this.props.herb})
     }
 
     render() {

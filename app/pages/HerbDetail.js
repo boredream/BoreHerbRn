@@ -4,7 +4,11 @@ import {View, Text, Button} from "react-native";
 export default class HerbDetail extends Component {
 
     static navigationOptions =  ({navigation}) => ({
-        title: 'HerbDetail',
+        headerTitle: `${navigation.state.params.herb.name}`,
+        headerTitleStyle: {
+            alignSelf: 'center',
+            fontSize: 16,
+        }
     });
 
     render() {

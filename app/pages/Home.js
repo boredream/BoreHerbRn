@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
-import { View, FlatList} from 'react-native'
+import { View, FlatList, TouchableNativeFeedback, Image} from 'react-native'
 import HerbItem from '../component/HerbItem'
+import Header from "../component/Header";
 
 export default class Home extends Component {
 
@@ -26,8 +27,15 @@ export default class Home extends Component {
 
         return (
             <View style={{flex: 1, backgroundColor: 'white'}}>
+
+                <Header
+                    title='首页'
+                    isLeftBack={ true }
+                    leftImage={'icon_side'} />
+
                 <FlatList
                     data={ this.state.herbs }
+                    keyExtractor={(item, index) => index}
                     renderItem={({item})=>{
                         return (
                             <HerbItem
