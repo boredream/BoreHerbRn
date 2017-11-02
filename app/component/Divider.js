@@ -12,9 +12,6 @@ export class HonDivider extends Component {
 }
 
 export class VerDivider extends Component {
-    constructor(props) {
-        super(props)
-    }
 
     render() {
         return(

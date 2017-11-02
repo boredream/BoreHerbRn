@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
-import { View, FlatList, TouchableNativeFeedback, Image} from 'react-native'
+import { View, FlatList } from 'react-native'
 import HerbItem from '../component/HerbItem'
-import Header from "../component/Header";
+import Header from '../component/Header'
+import LocalImg from '../Images'
 
 export default class Home extends Component {
 
@@ -19,6 +20,39 @@ export default class Home extends Component {
         }));
     }
 
+    //网络请求
+    fetchData() {
+        //这个是js的访问网络的方法
+        fetch(REQUEST_URL)
+            .then((response) => response.json())
+            .then((responseData) => {
+                let data = responseData.items;
+                let dataBlob = [];
+                let i = 0;
+                data.map(function (item) {
+                    dataBlob.push({
+                        key: i,
+                        value: item,
+                    })
+                    i++;
+                });
+                this.setState({
+                    //复制数据源
+                    dataArray: dataBlob,
+                    isLoading: false,
+                });
+                data = null;
+                dataBlob = null;
+            })
+            .catch((error) => {
+                this.setState({
+                    error: true,
+                    errorInfo: error
+                })
+            })
+            .done();
+    }
+
     // 渲染组件
     render() {
         // if(!this.state.herbs) {
@@ -30,8 +64,8 @@ export default class Home extends Component {
 
                 <Header
                     title='首页'
-                    isLeftBack={ true }
-                    leftImage={'icon_side'} />
+                    rightImage={ LocalImg.icon_side }
+                    onRightClick={()=>{ this.props.navigation.navigate('DrawerOpen'); }}/>
 
                 <FlatList
                     data={ this.state.herbs }

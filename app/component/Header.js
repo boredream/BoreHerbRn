@@ -1,15 +1,17 @@
-import React, { Component } from 'react'
-import { View, Text, Image, TouchableNativeFeedback, StyleSheet, ToastAndroid } from 'react-native'
-import {commonStyles} from '../styles/Styles'
-import LocalImg from '../../app/Images'
+import React, {Component} from "react";
+import {Image, StyleSheet, Text, TouchableNativeFeedback, View} from "react-native";
+import {commonStyles} from "../styles/Styles";
+import LocalImg from "../../app/Images";
+import {HonDivider} from "../component/Divider"
 
+const ImageSourcePropType = require('ImageSourcePropType');
 
 export default class Header extends Component {
 
     static propTypes = {
-        leftImage: React.PropTypes.string,
+        leftImage: ImageSourcePropType,
         title: React.PropTypes.string.isRequired,
-        rightImage: React.PropTypes.string,
+        rightImage: ImageSourcePropType,
         onLeftClick: React.PropTypes.func,
         onRightClick: React.PropTypes.func,
         isLeftBack: React.PropTypes.bool,
@@ -17,23 +19,24 @@ export default class Header extends Component {
 
     render() {
         return(
-            <View style={{
-                backgroundColor: 'white',
-                height: 56,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-            }}>
+            <View >
+                <View style={{
+                    backgroundColor: 'white',
+                    height: 56,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                }}>
 
-                { this.renderLeft() }
+                    { this.renderLeft() }
 
-                <Text style={commonStyles.subHeader}>{this.props.title}</Text>
+                    <Text style={commonStyles.subHeader}>{this.props.title}</Text>
 
-                <TouchableNativeFeedback>
-                    <View style={styles.container}>
-                        <Image style={commonStyles.icon} source={require('../../images/icon_side.png')}/>
-                    </View>
-                </TouchableNativeFeedback>
+                    { this.renderRight() }
+
+                </View>
+
+                <HonDivider/>
             </View>
         )
     }
@@ -41,7 +44,7 @@ export default class Header extends Component {
     renderLeft() {
         if(this.props.isLeftBack) {
             return (
-                <TouchableNativeFeedback onPress={() => { ToastAndroid.show('toatttttttttt', ToastAndroid.SHORT) }}>
+                <TouchableNativeFeedback onPress={() => { this.props.nav.pop() }}>
                     <View style={styles.container}>
                         <Image style={commonStyles.icon} source={LocalImg.icon_back}/>
                     </View>
@@ -49,9 +52,25 @@ export default class Header extends Component {
             )
         } else if(this.props.leftImage) {
             return (
-                <TouchableNativeFeedback onPress={()=>{this.props.onLeftClick}}>
+                <TouchableNativeFeedback onPress={ this.props.onLeftClick }>
                     <View style={styles.container}>
-                        <Image style={commonStyles.icon} source={LocalImg[this.props.leftImage]}/>
+                        <Image style={commonStyles.icon} source={this.props.leftImage}/>
+                    </View>
+                </TouchableNativeFeedback>
+            )
+        } else {
+            return(
+                <View style={{width:48, height:56}} />
+            )
+        }
+    }
+
+    renderRight() {
+        if(this.props.rightImage) {
+            return (
+                <TouchableNativeFeedback onPress={ this.props.onRightClick }>
+                    <View style={styles.container}>
+                        <Image style={commonStyles.icon} source={this.props.rightImage}/>
                     </View>
                 </TouchableNativeFeedback>
             )

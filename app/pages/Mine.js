@@ -11,7 +11,7 @@ export default class Mine extends Component {
                     <TouchableWithoutFeedback onPress={()=>{
                         this.props.navigation.navigate('Categories');
                     }}>
-                        <Text style={styles.item}>分类</Text>
+                        <View><Text style={styles.item}>分类</Text></View>
                     </TouchableWithoutFeedback>
                     <HonDivider/>
                     <Text style={styles.item}>我的下载</Text>
