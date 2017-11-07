@@ -1,5 +1,14 @@
 import React, { Component } from 'react'
-import { View, Text, Image, StyleSheet, TouchableNativeFeedback } from 'react-native'
+import { View, Text, Image, StyleSheet, TouchableNativeFeedback, ART } from 'react-native'
+import {commonStyles} from "../styles/Styles";
+
+const {Surface, Shape, Path} = ART;
+
+const path = new Path()
+    .moveTo(40,0)
+    .arc(0,80,20)
+    .arc(0,-80,20)
+    .close();
 
 export default class HerbItem extends Component {
 
@@ -25,37 +34,45 @@ export default class HerbItem extends Component {
                     <View style={{
                         justifyContent: 'center'
                     }}>
-                        <Text style={ styles.subHeader }>
+                        <Text style={ commonStyles.subHeader }>
                             { this.props.herb.name }
                         </Text>
 
-                        <Text style={ styles.caption }>
-                            { this.props.herb.pinyin }
+                        <Text style={ commonStyles.caption }>
+                            { this.props.herb.letter }
                         </Text>
                     </View>
 
-                    <Image
-                        style={{
-                            width:80,
-                            height:80,
-                            borderRadius: 40
-                        }}
-                        source={{uri: this.props.herb.image}} />
+                    { this.renderImage() }
                 </View>
             </TouchableNativeFeedback>
         )
     }
 
+    renderImage() {
+        if(this.props.herb.img) {
+            return(
+                <Image
+                    style={styles.image}
+                    source={{uri: this.props.herb.img}} />
+            )
+        } else {
+            return(
+                <View style={styles.image} >
+                    <Surface width={80} height={80}>
+                        <Shape d={path} fill="white"/>
+                    </Surface>
+                </View>
+            )
+        }
+
+    }
 }
 
 const styles = StyleSheet.create({
-    subHeader: {
-        fontSize: 16,
-        color: '#333333'
-    },
-
-    caption: {
-        fontSize: 12,
-        color: '#666666'
+    image: {
+        width:80,
+        height:80,
+        borderRadius: 40,
     }
 })

@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
-import { View, FlatList } from 'react-native'
+import { View, FlatList, Text } from 'react-native'
 import HerbItem from '../component/HerbItem'
 import Header from '../component/Header'
 import LocalImg from '../Images'
+import NetInfo from '../NetInfo'
 
 export default class Home extends Component {
 
@@ -15,36 +16,29 @@ export default class Home extends Component {
 
     // 组件加载完毕
     componentDidMount() {
-        this.setState((state) => ({
-            herbs: require('../../mock/homeData.json')
-        }));
+        this.fetchData(1)
     }
 
     //网络请求
-    fetchData() {
-        //这个是js的访问网络的方法
-        fetch(REQUEST_URL)
+    fetchData(page) {
+        limit = 10
+        skip = (page - 1) * limit
+
+        url = NetInfo.url_herb + '/?limit='+limit+"&skip="+skip
+
+        fetch(url, {
+            headers: NetInfo.header,
+        })
             .then((response) => response.json())
             .then((responseData) => {
-                let data = responseData.items;
-                let dataBlob = [];
-                let i = 0;
-                data.map(function (item) {
-                    dataBlob.push({
-                        key: i,
-                        value: item,
-                    })
-                    i++;
-                });
+                results = responseData['results']
+
                 this.setState({
-                    //复制数据源
-                    dataArray: dataBlob,
-                    isLoading: false,
+                    herbs: results,
                 });
-                data = null;
-                dataBlob = null;
             })
             .catch((error) => {
+                console.log('error = ' + error)
                 this.setState({
                     error: true,
                     errorInfo: error
@@ -55,10 +49,6 @@ export default class Home extends Component {
 
     // 渲染组件
     render() {
-        // if(!this.state.herbs) {
-        //     return this.renderLoadingView();
-        // }
-
         return (
             <View style={{flex: 1, backgroundColor: 'white'}}>
 
@@ -67,6 +57,27 @@ export default class Home extends Component {
                     rightImage={ LocalImg.icon_side }
                     onRightClick={()=>{ this.props.navigation.navigate('DrawerOpen'); }}/>
 
+                { this.renderContent() }
+            </View>
+        )
+    }
+
+    renderContent() {
+        if(!this.state.herbs) {
+            return (
+                <View style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
+                    <Text>
+                        Loading data ...
+                    </Text>
+                </View>
+            );
+        } else {
+            return(
                 <FlatList
                     data={ this.state.herbs }
                     keyExtractor={(item, index) => index}
@@ -79,7 +90,7 @@ export default class Home extends Component {
                         )
                     }}
                 />
-            </View>
-        )
+            )
+        }
     }
 }

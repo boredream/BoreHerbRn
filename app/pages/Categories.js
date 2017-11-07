@@ -1,35 +1,62 @@
-import React, {Component} from 'react'
-import {View, FlatList, Text, TouchableWithoutFeedback, Image} from 'react-native'
+import React, {Component} from "react";
+import {FlatList, Image, Text, TouchableWithoutFeedback, View} from "react-native";
 import {VerDivider} from "../component/Divider";
 import Header from "../component/Header";
-import LocalImg from '../Images'
+import LocalImg from "../Images";
+import NetInfo from "../NetInfo";
+import {commonStyles} from "../styles/Styles";
 
 export default class Categories extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            categories: [],
+            categories: ['草部', '谷部', '菜部', '果部', '水部', '火部', '土部', '金石部', '木部', '服器部', '虫部', '鳞部', '介部', '禽部', '兽部', '人部'],
+            selectCategory: '草部',
             cateHerbs: new Map(),
-            selectCategory: '',
             selectCateHerbs: []
         };
     }
 
     // 组件加载完毕
     componentDidMount() {
-        this.setState((state) => ({
-            categories: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'],
-            selectCategory: 'A',
-        }));
+
+    }
+
+    //网络请求
+    fetchData(page) {
+        where = '{"type":"' + this.state.selectCategory + '"}'
+
+        limit = 10
+        skip = (page - 1) * limit
+
+        url = NetInfo.url_herb + '/?limit='+limit+"&skip="+skip+"&where="+where
+        console.log(url)
+
+        fetch(url, {
+            headers: NetInfo.header,
+        })
+            .then((response) => response.json())
+            .then((responseData) => {
+                results = responseData['results']
+                console.log(results)
+
+                this.setState({
+                    selectCateHerbs: results,
+                });
+            })
+            .catch((error) => {
+                console.log('error = ' + error)
+                this.setState({
+                    error: true,
+                    errorInfo: error
+                })
+            })
+            .done();
     }
 
     // 渲染组件
     render() {
-        // if(!this.state.herbs) {
-        //     return this.renderLoadingView();
-        // }
-
         return (
             <View style={{flex: 1, backgroundColor: 'white'}}>
 
@@ -58,7 +85,7 @@ export default class Categories extends Component {
                     <VerDivider/>
 
                     <FlatList
-                        style={{ }}
+                        style={{ paddingLeft:8, paddingRight:8}}
                         numColumns={3}
                         data={ this.state.selectCateHerbs }
                         keyExtractor={(item, index) => index}
@@ -78,8 +105,9 @@ export default class Categories extends Component {
             // 重新拷贝一遍数据，刷新列表
             categories: state.categories.concat(),
             selectCategory: item,
-            herbs: require('../../mock/homeData.json')
         }));
+
+        this.fetchData(1)
     }
 
     renderCateItem(item) {
@@ -103,12 +131,21 @@ export default class Categories extends Component {
     }
 
     renderGridHerbItem(item) {
-        return (
-            <View style={{ width: 50 }}>
-                <Image style={{width: 50, height: 50}}
-                    source={} />
-                <Text>{item}</Text>
-            </View>
-        )
+        if(item.img) {
+            return (
+                <View style={{ width:87, paddingTop: 18}}>
+                    <Image style={{ width: 50, height: 50, alignSelf:'center'}}
+                           source={{uri: item.img}}/>
+                    <Text style={{fontSize:10, color:'#666666', alignSelf:'center', marginTop: 6}}>{ item.name }</Text>
+                </View>
+            )
+        } else {
+            return (
+                <View style={{ width:87, paddingTop: 18 }}>
+                    <View style={{ width: 50, height: 50, alignSelf:'center', backgroundColor:'#999999'}} />
+                    <Text style={{fontSize:10, color:'#666666', alignSelf:'center', marginTop: 6}}>{ item.name }</Text>
+                </View>
+            )
+        }
     }
 }
