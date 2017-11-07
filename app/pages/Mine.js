@@ -9,7 +9,7 @@ export default class Mine extends Component {
             <View style={{flex:1, paddingLeft:24, paddingRight:24, justifyContent: 'space-between'}}>
                 <View style={{paddingTop:64}}>
                     <TouchableWithoutFeedback onPress={()=>{
-                        this.props.navigation.navigate('Categories');
+                        this.props.navigation.navigate('Categories', {navigation: this.props.navigation});
                     }}>
                         <View><Text style={styles.item}>分类</Text></View>
                     </TouchableWithoutFeedback>

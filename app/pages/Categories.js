@@ -140,18 +140,22 @@ export default class Categories extends Component {
     renderGridHerbItem(item) {
         if(item.img) {
             return (
-                <View style={{ width:87, paddingTop: 18}}>
-                    <Image style={{ width: 50, height: 50, alignSelf:'center'}}
-                           source={{uri: item.img}}/>
-                    <Text style={{fontSize:10, color:'#666666', alignSelf:'center', marginTop: 6}}>{ item.name }</Text>
-                </View>
+                <TouchableWithoutFeedback onPress={() => {this.props.navigation.navigate('HerbDetail', {herb: item})}}>
+                    <View style={{ width:87, paddingTop: 18}}>
+                        <Image style={{ width: 50, height: 50, alignSelf:'center'}}
+                               source={{uri: item.img}}/>
+                        <Text style={{fontSize:10, color:'#666666', alignSelf:'center', marginTop: 6}}>{ item.name }</Text>
+                    </View>
+                </TouchableWithoutFeedback>
             )
         } else {
             return (
-                <View style={{ width:87, paddingTop: 18 }}>
-                    <View style={{ width: 50, height: 50, alignSelf:'center', backgroundColor:'#999999'}} />
-                    <Text style={{fontSize:10, color:'#666666', alignSelf:'center', marginTop: 6}}>{ item.name }</Text>
-                </View>
+                <TouchableWithoutFeedback onPress={() => {this.props.navigation.navigate('HerbDetail', {herb: item})}}>
+                    <View style={{ width:87, paddingTop: 18 }}>
+                        <View style={{ width: 50, height: 50, alignSelf:'center', backgroundColor:'#999999'}} />
+                        <Text style={{fontSize:10, color:'#666666', alignSelf:'center', marginTop: 6}}>{ item.name }</Text>
+                    </View>
+                </TouchableWithoutFeedback>
             )
         }
     }
