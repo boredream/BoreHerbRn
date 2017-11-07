@@ -4,7 +4,6 @@ import {VerDivider} from "../component/Divider";
 import Header from "../component/Header";
 import LocalImg from "../Images";
 import NetInfo from "../NetInfo";
-import {commonStyles} from "../styles/Styles";
 
 export default class Categories extends Component {
 
@@ -20,14 +19,32 @@ export default class Categories extends Component {
 
     // 组件加载完毕
     componentDidMount() {
+        this.fetchData(this.state.selectCategory, 1)
+    }
 
+    changeCategory(item) {
+        this.setState((state) => ({
+            // 重新拷贝一遍数据，刷新列表
+            categories: state.categories.concat(),
+            selectCategory: item,
+        }));
+
+        if(this.state.cateHerbs.has(item)) {
+            // 如果已经加载过这个类型，则直接显示
+            this.setState({
+                selectCateHerbs: this.state.cateHerbs.get(item),
+            });
+        } else {
+            // 如果没有加载过这个类型，网络获取
+            this.fetchData(item, 1)
+        }
     }
 
     //网络请求
-    fetchData(page) {
-        where = '{"type":"' + this.state.selectCategory + '"}'
+    fetchData(item, page) {
+        where = '{"type":"' + item + '"}'
 
-        limit = 10
+        limit = 18
         skip = (page - 1) * limit
 
         url = NetInfo.url_herb + '/?limit='+limit+"&skip="+skip+"&where="+where
@@ -39,11 +56,11 @@ export default class Categories extends Component {
             .then((response) => response.json())
             .then((responseData) => {
                 results = responseData['results']
-                console.log(results)
 
                 this.setState({
                     selectCateHerbs: results,
                 });
+                this.state.cateHerbs.set(item, results)
             })
             .catch((error) => {
                 console.log('error = ' + error)
@@ -98,16 +115,6 @@ export default class Categories extends Component {
 
             </View>
         )
-    }
-
-    changeCategory(item) {
-        this.setState((state) => ({
-            // 重新拷贝一遍数据，刷新列表
-            categories: state.categories.concat(),
-            selectCategory: item,
-        }));
-
-        this.fetchData(1)
     }
 
     renderCateItem(item) {
