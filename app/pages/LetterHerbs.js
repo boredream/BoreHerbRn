@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { View, SectionList, Text, Image, StyleSheet, ART, TouchableWithoutFeedback } from 'react-native'
+import { View, SectionList, Text, Image, StyleSheet, ART, TouchableWithoutFeedback, PanResponder } from 'react-native'
 import Header from '../component/Header'
 import LocalImg from '../Images'
 import NetInfo from '../NetInfo'
@@ -14,18 +14,56 @@ const path = new Path()
     .arc(0,-40,20)
     .close();
 
+const letterHeight = 15
+
 export default class LetterHerbs extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             letterHerbs: null,
+            letterIndexMap: new Map(),
         };
     }
 
     // 组件加载完毕
     componentDidMount() {
+        this._panGesture = PanResponder.create({
+            //要求成为响应者：
+            onStartShouldSetPanResponder: (evt, gestureState) => true,
+            onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+            onMoveShouldSetPanResponder: (evt, gestureState) => true,
+            onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+            onPanResponderTerminationRequest: (evt, gestureState) => true,
+
+            onPanResponderGrant: (evt, gestureState) => {
+                this.onLetterChanged(gestureState.y0)
+            },
+            onPanResponderMove: (evt, gestureState) => {
+                this.onLetterChanged(gestureState.moveY)
+            },
+            onResponderTerminationRequest: (evt, gestureState) => true,
+            onPanResponderRelease: (evt, gestureState) => {
+                // console.log('抬手 x:' + gestureState.moveX + ',y:' + gestureState.moveY);
+            },
+            onPanResponderTerminate: (evt, gestureState) => {
+                // console.log(`结束 = evt.identifier = ${evt.identifier} gestureState = ${gestureState}`);
+            },
+        });
+
         this.fetchData()
+    }
+
+    onLetterChanged(y) {
+        let diffY = y - 56
+        position = parseInt(diffY / letterHeight)
+        if(position < 0) position = 0
+        if(position > 25) position = 25
+        letter = String.fromCharCode(position + 65)
+        letterIndex = this.state.letterIndexMap.get(letter)
+        if(letterIndex) {
+            this.refs.secList.scrollToLocation({itemIndex:0, sectionIndex:letterIndex, viewOffset:32})
+        }
     }
 
     //网络请求
@@ -59,9 +97,12 @@ export default class LetterHerbs extends Component {
                 }
 
                 sections = []
+                index = 0
                 for(let i=65; i<91; i++) {
                     letter = String.fromCharCode(i)
                     if(map.has(letter) && map.get(letter).length > 0) {
+                        this.state.letterIndexMap.set(letter, index++)
+
                         sections.push({
                             key: letter,
                             data: map.get(letter),
@@ -116,20 +157,51 @@ export default class LetterHerbs extends Component {
                 </View>
             );
         } else {
+            let letters = []
+            for(let i=65; i<91; i++) {
+                letters.push(String.fromCharCode(i))
+            }
+
             return(
-                <SectionList
-                    style={{paddingLeft:16, paddingRight:16}}
-                    keyExtractor={(item, index) => index}
-                    sections={ this.state.letterHerbs }
-                    renderItem={({item}) => {
-                        return this.renderItem(item)
-                    }}
-                    renderSectionHeader={({section}) => {
-                        return this.renderCateItem(section)
-                    }}
-                    />
+                <View style={{flexDirection:'row'}}>
+                    <SectionList
+                        ref='secList'
+                        style={{flex:1, paddingLeft:16, paddingRight:16}}
+                        keyExtractor={(item, index) => index}
+                        sections={ this.state.letterHerbs }
+                        renderItem={({item}) => {
+                            return this.renderItem(item)
+                        }}
+                        renderSectionHeader={({section}) => {
+                            return this.renderCateItem(section)
+                        }}
+                        />
+
+                    <View
+                        style={{width:20, alignItems:'center'}}
+                        { ...this._panGesture.panHandlers} >
+                        { letters.map((letter) => this.renderLetters(letter)) }
+                    </View>
+                </View>
             )
         }
+    }
+
+    renderLetters(letter) {
+        let index = 2
+
+        return (
+            <TouchableWithoutFeedback
+                key={letter}
+                onPressIn={() => {
+                    this.scrollTo(index)
+                }}>
+                <View
+                    style={{height:letterHeight, justifyContent:'center', alignItems:'center'}}>
+                    <Text style={{fontSize:12, color:'#666666'}}>{letter}</Text>
+                </View>
+            </TouchableWithoutFeedback>
+        )
     }
 
     renderItem(item) {
