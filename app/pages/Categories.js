@@ -152,7 +152,7 @@ export default class Categories extends Component {
             return (
                 <TouchableWithoutFeedback onPress={() => {this.props.navigation.navigate('HerbDetail', {herb: item})}}>
                     <View style={{ width:87, paddingTop: 18 }}>
-                        <View style={{ width: 50, height: 50, alignSelf:'center', backgroundColor:'#999999'}} />
+                        <View style={{ width: 50, height: 50, alignSelf:'center', backgroundColor:'#aaaaaa'}} />
                         <Text style={{fontSize:10, color:'#666666', alignSelf:'center', marginTop: 6}}>{ item.name }</Text>
                     </View>
                 </TouchableWithoutFeedback>

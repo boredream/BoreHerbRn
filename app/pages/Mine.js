@@ -11,10 +11,16 @@ export default class Mine extends Component {
                     <TouchableWithoutFeedback onPress={()=>{
                         this.props.navigation.navigate('Categories', {navigation: this.props.navigation});
                     }}>
-                        <View><Text style={styles.item}>分类</Text></View>
+                        <View><Text style={styles.item}>按 [ 部 ] 分类</Text></View>
                     </TouchableWithoutFeedback>
                     <HonDivider/>
-                    <Text style={styles.item}>我的下载</Text>
+                    <TouchableWithoutFeedback onPress={()=>{
+                        this.props.navigation.navigate('LetterHerbs', {navigation: this.props.navigation});
+                    }}>
+                        <View><Text style={styles.item}>按 [ A-Z ] 排列</Text></View>
+                    </TouchableWithoutFeedback>
+                    {/*<HonDivider/>*/}
+                    {/*<Text style={styles.item}>我的下载</Text>*/}
                     <HonDivider/>
                     <Text style={styles.item}>设置</Text>
                 </View>

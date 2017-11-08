@@ -84,7 +84,7 @@ export default class HerbDetail extends Component {
             )
         } else {
             return (
-                <View style={{ height: 160, backgroundColor: '#999999' }} >
+                <View style={{ height: 160, backgroundColor: '#aaaaaa' }} >
 
                 </View>
             )

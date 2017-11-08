@@ -65,7 +65,6 @@ export default class HerbItem extends Component {
                 </View>
             )
         }
-
     }
 }
 
