@@ -61,7 +61,8 @@ export default class LetterHerbs extends Component {
         if(position > 25) position = 25
         letter = String.fromCharCode(position + 65)
         letterIndex = this.state.letterIndexMap.get(letter)
-        if(letterIndex) {
+
+        if(typeof(letterIndex) !== "undefined"){
             this.refs.secList.scrollToLocation({itemIndex:0, sectionIndex:letterIndex, viewOffset:32})
         }
     }
@@ -169,6 +170,9 @@ export default class LetterHerbs extends Component {
                         style={{flex:1, paddingLeft:16, paddingRight:16}}
                         keyExtractor={(item, index) => index}
                         sections={ this.state.letterHerbs }
+                        // getItemLayout={(data, index) => (
+                        //     {length: 60, offset: 60 * index + 32, index}
+                        // )}
                         renderItem={({item}) => {
                             return this.renderItem(item)
                         }}
