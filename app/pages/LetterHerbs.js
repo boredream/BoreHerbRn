@@ -15,14 +15,17 @@ const path = new Path()
     .close();
 
 const letterHeight = 15
+const headerHeight = 60
+const itemHeight = 60
 
 export default class LetterHerbs extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            letterHerbs: null,
-            letterIndexMap: new Map(),
+            letterHerbs: null, // 显示用
+            letterIndexMap: new Map(), // 定位用
+            letterOffsetIndex: [], // 计算offset用的字母索引
         };
     }
 
@@ -63,7 +66,7 @@ export default class LetterHerbs extends Component {
         letterIndex = this.state.letterIndexMap.get(letter)
 
         if(typeof(letterIndex) !== "undefined"){
-            this.refs.secList.scrollToLocation({itemIndex:0, sectionIndex:letterIndex, viewOffset:32})
+            this.refs.secList.scrollToLocation({itemIndex:0, sectionIndex:letterIndex})
         }
     }
 
@@ -84,6 +87,7 @@ export default class LetterHerbs extends Component {
                 // 按照拼音首字母保存数据集合
                 map = new Map()
                 results = responseData['results']
+
                 for(const i in results) {
                     herb = results[i]
                     firstLetter = herb.letter.charAt(0).toUpperCase()
@@ -99,10 +103,16 @@ export default class LetterHerbs extends Component {
 
                 sections = []
                 index = 0
+                indexInTotal = 1
                 for(let i=65; i<91; i++) {
                     letter = String.fromCharCode(i)
                     if(map.has(letter) && map.get(letter).length > 0) {
+                        this.state.letterOffsetIndex.push(indexInTotal)
+                        
                         this.state.letterIndexMap.set(letter, index++)
+
+                        // FIXME 比较迷，为什么header的额外占位是 2 呢~
+                        indexInTotal += (map.get(letter).length + 2)
 
                         sections.push({
                             key: letter,
@@ -114,7 +124,6 @@ export default class LetterHerbs extends Component {
                 this.setState({
                     letterHerbs: sections
                 })
-
             })
             .catch((error) => {
                 console.log('error = ' + error)
@@ -170,14 +179,12 @@ export default class LetterHerbs extends Component {
                         style={{flex:1, paddingLeft:16, paddingRight:16}}
                         keyExtractor={(item, index) => index}
                         sections={ this.state.letterHerbs }
-                        // getItemLayout={(data, index) => (
-                        //     {length: 60, offset: 60 * index + 32, index}
-                        // )}
+                        getItemLayout={(data, index) => this.handleItemLayout(data, index)}
                         renderItem={({item}) => {
                             return this.renderItem(item)
                         }}
                         renderSectionHeader={({section}) => {
-                            return this.renderCateItem(section)
+                            return this.renderSectionHeader(section)
                         }}
                         />
 
@@ -208,17 +215,27 @@ export default class LetterHerbs extends Component {
         )
     }
 
+    renderSectionHeader(section) {
+        return(
+            <View style={{height:headerHeight, justifyContent:'space-between'}}>
+                <View style={{height: 1}}/>
+                <Text style={{fontSize:16, color:'#bb4637'}}>{section.key}</Text>
+                <View style={{height: 1, backgroundColor: '#bb4637'}}/>
+            </View>
+        )
+    }
+
     renderItem(item) {
         return(
-            <View>
+            <View style={{height: itemHeight}}>
                 <TouchableWithoutFeedback onPress={() => {this.props.navigation.navigate('HerbDetail', {herb: item})}}>
-                    <View style={{ flexDirection:'row', height: 60, alignItems:'center' }}>
+                    <View style={{ flex:1, flexDirection:'row', alignItems:'center' }}>
                         {this.renderImage(item)}
                         <View style={{width:16}}/>
                         <Text style={commonStyles.subHeader}>{item.name}</Text>
                     </View>
-                </TouchableWithoutFeedback>
 
+                </TouchableWithoutFeedback>
                 <HonDivider/>
             </View>
         )
@@ -242,15 +259,29 @@ export default class LetterHerbs extends Component {
         }
     }
 
-    renderCateItem(section) {
-        return(
-            <View style={{height:32, justifyContent:'space-between'}}>
-                <View style={{height: 1}}/>
-                <Text style={{fontSize:16, color:'#bb4637'}}>{section.key}</Text>
-                <View style={{height: 1, backgroundColor: '#bb4637'}}/>
-            </View>
-        )
+    handleItemLayout(data, index) {
+        // offset 是当前item的偏移量，scroll时候用
+        let offset = index * itemHeight
+        
+        for(let i=0; i<=index; i++) {
+            if(this.isInList(this.state.letterOffsetIndex, i)) {
+                offset -= headerHeight    
+            }
+        }
+        
+        console.log(index + " ; " + offset)
+        return {length: 60, offset: offset, index}
     }
+    
+    isInList(list, item) {
+        for(let i in list) {
+            if(list[i] === item) {
+                return true
+            }
+        }
+        return false
+    }
+    
 }
 
 const styles = StyleSheet.create({
