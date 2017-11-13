@@ -44,7 +44,7 @@ export default class Search extends Component {
         limit = 20
         skip = (page - 1) * limit
 
-        url = NetInfo.url_herb + '/?limit='+limit+"&skip="+skip // +"&where="+where
+        url = NetInfo.url_herb + '?limit='+limit+"&skip="+skip // +"&where="+where
         console.log(url)
 
         fetch(url, {

@@ -76,7 +76,7 @@ export default class LetterHerbs extends Component {
         limit = 600
         skip = 0
 
-        url = NetInfo.url_herb + '/?limit='+limit+"&skip="+skip
+        url = NetInfo.url_herb + '?limit='+limit+"&skip="+skip
 
         fetch(url, {
             headers: NetInfo.header,

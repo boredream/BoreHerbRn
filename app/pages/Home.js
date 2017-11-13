@@ -24,7 +24,8 @@ export default class Home extends Component {
         limit = 10
         skip = (page - 1) * limit
 
-        url = NetInfo.url_herb + '/?limit='+limit+"&skip="+skip
+        url = NetInfo.url_herb + '?limit='+limit+"&skip="+skip
+        console.log('url=' + url)
 
         fetch(url, {
             headers: NetInfo.header,

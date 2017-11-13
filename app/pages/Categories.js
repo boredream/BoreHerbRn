@@ -47,7 +47,7 @@ export default class Categories extends Component {
         limit = 18
         skip = (page - 1) * limit
 
-        url = NetInfo.url_herb + '/?limit='+limit+"&skip="+skip+"&where="+where
+        url = NetInfo.url_herb + '?limit='+limit+"&skip="+skip+"&where="+where
         console.log(url)
 
         fetch(url, {
