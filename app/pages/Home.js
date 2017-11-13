@@ -54,8 +54,10 @@ export default class Home extends Component {
 
                 <Header
                     title='首页'
-                    rightImage={ LocalImg.icon_side }
-                    onRightClick={()=>{ this.props.navigation.navigate('DrawerOpen'); }}/>
+                    leftImage={ LocalImg.icon_side }
+                    onLeftClick={() => { this.props.navigation.navigate('DrawerOpen'); }}
+                    rightImage={ LocalImg.icon_search }
+                    onRightClick={()=>{ this.props.navigation.navigate('Search'); }}/>
 
                 { this.renderContent() }
             </View>

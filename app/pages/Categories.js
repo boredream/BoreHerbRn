@@ -83,8 +83,7 @@ export default class Categories extends Component {
                         this.props.navigation.goBack()
                     }}
                     rightImage={ LocalImg.icon_search }
-                    onRightClick={() => {
-                    }}
+                    onRightClick={()=>{ this.props.navigation.navigate('Search'); }}
                     title="分类"/>
 
                 <View style={{ flex:1, flexDirection: 'row'}}>

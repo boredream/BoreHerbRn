@@ -15,7 +15,6 @@ export default class Header extends Component {
         rightText: React.PropTypes.string,
         onLeftClick: React.PropTypes.func,
         onRightClick: React.PropTypes.func,
-        isLeftBack: React.PropTypes.bool,
     };
 
     render() {
@@ -43,15 +42,7 @@ export default class Header extends Component {
     }
 
     renderLeft() {
-        if(this.props.isLeftBack) {
-            return (
-                <TouchableNativeFeedback onPress={() => { this.props.nav.pop() }}>
-                    <View style={styles.container}>
-                        <Image style={commonStyles.icon} source={LocalImg.icon_back}/>
-                    </View>
-                </TouchableNativeFeedback>
-            )
-        } else if(this.props.leftImage) {
+        if(this.props.leftImage) {
             return (
                 <TouchableNativeFeedback onPress={ this.props.onLeftClick }>
                     <View style={styles.container}>

@@ -19,8 +19,7 @@ export default class Mine extends Component {
                     }}>
                         <View><Text style={styles.item}>按 [ A-Z ] 排列</Text></View>
                     </TouchableWithoutFeedback>
-                    <HonDivider/>
-                    <Text style={styles.item}>设置</Text>
+                    <Text style={styles.item}> </Text>
                 </View>
 
                 <View style={{marginBottom: 32}}>
@@ -30,7 +29,11 @@ export default class Mine extends Component {
                         <View><Text style={styles.item}>意见反馈</Text></View>
                     </TouchableWithoutFeedback>
                     <HonDivider/>
-                    <Text style={styles.item}>关于</Text>
+                    <TouchableWithoutFeedback onPress={()=>{
+                        this.props.navigation.navigate('About', {navigation: this.props.navigation});
+                    }}>
+                        <View><Text style={styles.item}>关于</Text></View>
+                    </TouchableWithoutFeedback>
                 </View>
             </View>
         );

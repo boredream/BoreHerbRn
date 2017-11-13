@@ -1,13 +1,14 @@
-import React, {Component} from 'react';
-import {AppRegistry, Text, View, TouchableNativeFeedback, TouchableOpacity, Image} from 'react-native';
+import React from 'react';
+import {AppRegistry} from 'react-native';
 import { StackNavigator, DrawerNavigator } from 'react-navigation';
 import Home from './pages/Home';
 import HerbDetail from './pages/HerbDetail';
 import Categories from './pages/Categories';
-import SearchHerb from './pages/SearchHerb';
+import Search from './pages/Search';
 import LetterHerbs from './pages/LetterHerbs';
 import Mine from './pages/Mine';
 import Feedback from './pages/Feedback';
+import About from './pages/About';
 
 const DrawerApp = DrawerNavigator(
     {
@@ -15,6 +16,7 @@ const DrawerApp = DrawerNavigator(
         Categories: { screen: Categories },
         LetterHerbs: { screen: LetterHerbs },
         Feedback: { screen: Feedback },
+        About: { screen: About },
     },{
         drawerWidth: 256,
         drawerPosition:'left',
@@ -22,16 +24,14 @@ const DrawerApp = DrawerNavigator(
     }
 )
 
-
 const HomeStack = StackNavigator(
     {
         DrawerApp: { screen: DrawerApp },
         HerbDetail: { screen: HerbDetail },
-        SearchHerb: { screen: SearchHerb },
+        Search: { screen: Search },
     },
     { headerMode: 'none' }
 );
-
 
 
 AppRegistry.registerComponent('BoreHerbRn', () => HomeStack);

@@ -5,7 +5,7 @@ import Header from "../component/Header";
 import LocalImg from "../Images";
 import NetInfo from "../NetInfo";
 
-export default class Categories extends Component {
+export default class Feedback extends Component {
 
     constructor(props) {
         super(props);
@@ -52,7 +52,6 @@ export default class Categories extends Component {
         })
             .then((response) => response.json())
             .then((responseData) => {
-                console.log('response ' + responseData)
                 ToastAndroid.show('提交成功！感谢您的宝贵意见！', ToastAndroid.SHORT)
                 this.setState({
                     content: '',
@@ -112,46 +111,4 @@ export default class Categories extends Component {
         )
     }
 
-    renderCateItem(item) {
-        if(this.state.selectCategory === item) {
-            return (
-                <View style={{ height: 40, flexDirection: 'row', alignItems: 'center'}}>
-                    <View style={{height:10, width: 2, backgroundColor: '#bb4637', marginLeft: 10, marginRight: 8}}/>
-                    <Text style={{fontSize:16, color: '#bb4637'}}>{ item }</Text>
-                </View>
-            )
-        } else {
-            return (
-                <TouchableWithoutFeedback onPress={()=>{ this.changeCategory(item) }}>
-                    <View style={{ height: 40, flexDirection: 'row', alignItems: 'center'}}>
-                        <View style={{height:10, width: 2, marginLeft: 10, marginRight: 8}}/>
-                        <Text style={{fontSize:13, color: '#333333'}}>{ item }</Text>
-                    </View>
-                </TouchableWithoutFeedback>
-            )
-        }
-    }
-
-    renderGridHerbItem(item) {
-        if(item.img) {
-            return (
-                <TouchableWithoutFeedback onPress={() => {this.props.navigation.navigate('HerbDetail', {herb: item})}}>
-                    <View style={{ width:87, paddingTop: 18}}>
-                        <Image style={{ width: 50, height: 50, alignSelf:'center'}}
-                               source={{uri: item.img}}/>
-                        <Text style={{fontSize:10, color:'#666666', alignSelf:'center', marginTop: 6}}>{ item.name }</Text>
-                    </View>
-                </TouchableWithoutFeedback>
-            )
-        } else {
-            return (
-                <TouchableWithoutFeedback onPress={() => {this.props.navigation.navigate('HerbDetail', {herb: item})}}>
-                    <View style={{ width:87, paddingTop: 18 }}>
-                        <View style={{ width: 50, height: 50, alignSelf:'center', backgroundColor:'#aaaaaa'}} />
-                        <Text style={{fontSize:10, color:'#666666', alignSelf:'center', marginTop: 6}}>{ item.name }</Text>
-                    </View>
-                </TouchableWithoutFeedback>
-            )
-        }
-    }
 }
