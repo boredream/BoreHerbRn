@@ -39,12 +39,12 @@ export default class Search extends Component {
 
     //网络请求
     fetchData(page) {
-        // where = '{"type":"' + item + '"}'
+        where = '{"name":{"$regex":".*'+this.state.searchKey+'.*"}}'
 
         limit = 20
         skip = (page - 1) * limit
 
-        url = NetInfo.url_herb + '?limit='+limit+"&skip="+skip // +"&where="+where
+        url = NetInfo.url_herb + '?limit='+limit+"&skip="+skip +"&where="+where
         console.log(url)
 
         fetch(url, {
