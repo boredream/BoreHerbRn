@@ -12,6 +12,7 @@ export default class Header extends Component {
         leftImage: ImageSourcePropType,
         title: React.PropTypes.string.isRequired,
         rightImage: ImageSourcePropType,
+        rightText: React.PropTypes.string,
         onLeftClick: React.PropTypes.func,
         onRightClick: React.PropTypes.func,
         isLeftBack: React.PropTypes.bool,
@@ -71,6 +72,14 @@ export default class Header extends Component {
                 <TouchableNativeFeedback onPress={ this.props.onRightClick }>
                     <View style={styles.container}>
                         <Image style={commonStyles.icon} source={this.props.rightImage}/>
+                    </View>
+                </TouchableNativeFeedback>
+            )
+        } else if(this.props.rightText) {
+            return (
+                <TouchableNativeFeedback onPress={ this.props.onRightClick }>
+                    <View style={styles.container}>
+                        <Text style={{fontSize: 14, color: '#999999'}}>{this.props.rightText}</Text>
                     </View>
                 </TouchableNativeFeedback>
             )

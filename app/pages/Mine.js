@@ -19,14 +19,16 @@ export default class Mine extends Component {
                     }}>
                         <View><Text style={styles.item}>按 [ A-Z ] 排列</Text></View>
                     </TouchableWithoutFeedback>
-                    {/*<HonDivider/>*/}
-                    {/*<Text style={styles.item}>我的下载</Text>*/}
                     <HonDivider/>
                     <Text style={styles.item}>设置</Text>
                 </View>
 
                 <View style={{marginBottom: 32}}>
-                    <Text style={styles.item}>意见反馈</Text>
+                    <TouchableWithoutFeedback onPress={()=>{
+                        this.props.navigation.navigate('Feedback', {navigation: this.props.navigation});
+                    }}>
+                        <View><Text style={styles.item}>意见反馈</Text></View>
+                    </TouchableWithoutFeedback>
                     <HonDivider/>
                     <Text style={styles.item}>关于</Text>
                 </View>

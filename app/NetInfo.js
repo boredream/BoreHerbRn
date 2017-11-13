@@ -15,4 +15,5 @@ export default {
 
     url_herb: 'https://api.bmob.cn/1/classes/Herb',
     url_herb_detail: 'https://api.bmob.cn/1/classes/HerbDetail',
+    url_feedback: 'https://api.bmob.cn/1/classes/FeedBack',
 }
