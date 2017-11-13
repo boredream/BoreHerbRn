@@ -13,15 +13,19 @@ const path = new Path()
     .arc(0,-40,10)
     .close();
 
+const PAGE_COUNT = 15
+
 export default class Search extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            searchKey: '',
+            searchPage:1,
+            searchKey: '白',
             searchStatus: 0,
             searchResult: null,
+            haveMore: true,
         }
     }
 
@@ -32,16 +36,23 @@ export default class Search extends Component {
         }
 
         this.setState({
+            searchPage:1,
             searchStatus: 1,
         })
-        this.fetchData(1)
+        this.fetchData(this.state.searchPage)
+    }
+
+    loadMore() {
+        if(this.state.haveMore) {
+            this.fetchData(this.state.searchPage + 1)
+        }
     }
 
     //网络请求
     fetchData(page) {
         where = '{"name":{"$regex":".*'+this.state.searchKey+'.*"}}'
 
-        limit = 20
+        limit = PAGE_COUNT
         skip = (page - 1) * limit
 
         url = NetInfo.url_herb + '?limit='+limit+"&skip="+skip +"&where="+where
@@ -52,9 +63,21 @@ export default class Search extends Component {
         })
             .then((response) => response.json())
             .then((responseData) => {
+
+                results = responseData['results']
+                fullResponse = results.length === PAGE_COUNT
+
+                console.log('response = ' + results.length)
+
+                if(this.state.searchResult) {
+                    results = this.state.searchResult.concat(results)
+                }
+
                 this.setState({
                     searchStatus: 2,
-                    searchResult: responseData['results']
+                    searchPage: page,
+                    searchResult: results,
+                    haveMore: fullResponse,
                 })
             })
             .catch((error) => {
@@ -140,6 +163,9 @@ export default class Search extends Component {
                     renderItem={({item})=>{
                         return this.renderItem(item)
                     }}
+                    ListFooterComponent={this.renderFooter()}
+                    onEndReached = {() => {this.loadMore()}}
+                    onEndReachedThreshold = {0.1}
                     style={{flex:1, backgroundColor: 'white'}}>
 
                 </FlatList>
@@ -172,6 +198,16 @@ export default class Search extends Component {
                 <HonDivider/>
             </View>
         )
+    }
+
+    renderFooter() {
+        if(this.state.haveMore) {
+            return (
+                <View style={{height:48, alignItems: 'center', justifyContent:'center'}}>
+                    <Text style={{fontSize:14, color:'#999999', backgroundColor: 'white' }}>加载更多 ...</Text>
+                </View>
+            )
+        }
     }
 }
 
