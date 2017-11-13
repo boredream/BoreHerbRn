@@ -15,7 +15,7 @@ const path = new Path()
     .close();
 
 const letterHeight = 15
-const headerHeight = 60
+const headerHeight = 32
 const itemHeight = 60
 
 export default class LetterHerbs extends Component {
@@ -111,7 +111,7 @@ export default class LetterHerbs extends Component {
                         
                         this.state.letterIndexMap.set(letter, index++)
 
-                        // FIXME 比较迷，为什么header的额外占位是 2 呢~
+                        // 比较迷，为什么header的额外占位是 2 呢~
                         indexInTotal += (map.get(letter).length + 2)
 
                         sections.push({
@@ -261,15 +261,15 @@ export default class LetterHerbs extends Component {
 
     handleItemLayout(data, index) {
         // offset 是当前item的偏移量，scroll时候用
-        let offset = index * itemHeight
-        
+        let headerCount = 0
         for(let i=0; i<=index; i++) {
             if(this.isInList(this.state.letterOffsetIndex, i)) {
-                offset -= headerHeight    
+                headerCount ++
             }
         }
-        
-        console.log(index + " ; " + offset)
+
+        if(headerCount > 0) headerCount --
+        const offset = headerCount * headerHeight + (index - 1 - headerCount*2) * 60
         return {length: 60, offset: offset, index}
     }
     
