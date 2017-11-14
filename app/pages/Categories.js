@@ -1,9 +1,11 @@
 import React, {Component} from "react";
-import {FlatList, Image, Text, TouchableWithoutFeedback, View} from "react-native";
+import {FlatList, Image, Text, TouchableWithoutFeedback, View, RefreshControl} from "react-native";
 import {VerDivider} from "../component/Divider";
 import Header from "../component/Header";
 import LocalImg from "../Images";
 import NetInfo from "../NetInfo";
+
+const PAGE_COUNT = 30
 
 export default class Categories extends Component {
 
@@ -13,7 +15,10 @@ export default class Categories extends Component {
             categories: ['草部', '谷部', '菜部', '果部', '水部', '火部', '土部', '金石部', '木部', '服器部', '虫部', '鳞部', '介部', '禽部', '兽部', '人部'],
             selectCategory: '草部',
             cateHerbs: new Map(),
-            selectCateHerbs: []
+            selectCateHerbs: [],
+            refreshing: false,
+            curPage:1,
+            haveMore: false,
         };
     }
 
@@ -40,11 +45,17 @@ export default class Categories extends Component {
         }
     }
 
+    loadMore() {
+        if(this.state.haveMore) {
+            this.fetchData(this.state.selectCategory, this.state.curPage + 1)
+        }
+    }
+
     //网络请求
     fetchData(item, page) {
         where = '{"type":"' + item + '"}'
 
-        limit = 18
+        limit = PAGE_COUNT
         skip = (page - 1) * limit
 
         url = NetInfo.url_herb + '?limit='+limit+"&skip="+skip+"&where="+where
@@ -56,10 +67,21 @@ export default class Categories extends Component {
             .then((response) => response.json())
             .then((responseData) => {
                 results = responseData['results']
+                fullResponse = results.length === PAGE_COUNT
+
+                console.log('response = ' + results.length)
+
+                if(page > 1) {
+                    results = this.state.cateHerbs.get(item).concat(results)
+                }
 
                 this.setState({
                     selectCateHerbs: results,
-                });
+                    curPage: page,
+                    haveMore: fullResponse,
+                    refreshing: false,
+                })
+
                 this.state.cateHerbs.set(item, results)
             })
             .catch((error) => {
@@ -108,6 +130,21 @@ export default class Categories extends Component {
                         renderItem={({item}) => {
                             return this.renderGridHerbItem(item)
                         }}
+                        ListFooterComponent={this.renderFooter()}
+                        onEndReached = {() => {this.loadMore()}}
+                        onEndReachedThreshold = {0.1}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={this.state.refreshing}
+                                onRefresh={() => {
+                                    this.setState({
+                                        refreshing: true
+                                    })
+                                    this.fetchData(this.state.selectCategory, 1)
+                                }}
+                                colors={["#628a25"]}
+                            />
+                        }
                     />
 
                 </View>
@@ -140,7 +177,7 @@ export default class Categories extends Component {
         if(item.img) {
             return (
                 <TouchableWithoutFeedback onPress={() => {this.props.navigation.navigate('HerbDetail', {herb: item})}}>
-                    <View style={{ width:87, paddingTop: 18}}>
+                    <View style={{ width:90, paddingTop: 12, paddingBottom: 6}}>
                         <Image style={{ width: 50, height: 50, alignSelf:'center'}}
                                source={{uri: item.img}}/>
                         <Text style={{fontSize:10, color:'#666666', alignSelf:'center', marginTop: 6}}>{ item.name }</Text>
@@ -150,11 +187,21 @@ export default class Categories extends Component {
         } else {
             return (
                 <TouchableWithoutFeedback onPress={() => {this.props.navigation.navigate('HerbDetail', {herb: item})}}>
-                    <View style={{ width:87, paddingTop: 18 }}>
+                    <View style={{ width:90, paddingTop: 12, paddingBottom: 6}}>
                         <View style={{ width: 50, height: 50, alignSelf:'center', backgroundColor:'#aaaaaa'}} />
                         <Text style={{fontSize:10, color:'#666666', alignSelf:'center', marginTop: 6}}>{ item.name }</Text>
                     </View>
                 </TouchableWithoutFeedback>
+            )
+        }
+    }
+
+    renderFooter() {
+        if(this.state.haveMore) {
+            return (
+                <View style={{height:48, alignItems: 'center', justifyContent:'center'}}>
+                    <Text style={{fontSize:14, color:'#999999', backgroundColor: 'white' }}>加载更多 ...</Text>
+                </View>
             )
         }
     }

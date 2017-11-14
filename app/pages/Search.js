@@ -25,7 +25,7 @@ export default class Search extends Component {
             searchKey: '白',
             searchStatus: 0,
             searchResult: null,
-            haveMore: true,
+            haveMore: false,
         }
     }
 
