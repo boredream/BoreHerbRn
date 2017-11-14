@@ -7,7 +7,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import com.boreherbrn.BuildConfig;
+import com.microsoft.codepush.react.CodePush;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-          new CodePush(BuildConfig.CODEPUSH_KEY , MainApplication.this , BuildCofig.DEBUG)
+          new CodePush("4RDbcjp-z3CDqS-3VTnEUJzeRQO254d4f619-00bd-45e6-8a3a-762342868d68", MainApplication.this , BuildConfig.DEBUG)
       );
     }
   };

@@ -1,6 +1,4 @@
 apply plugin: "com.android.application"
-apply from "react.gradle"
-apply from "../../node_modules/react-native-code-push/android/codepush.gradle"
 
 import com.android.build.OutputFile
 
@@ -92,9 +90,6 @@ def enableSeparateBuildPerCPUArchitecture = false
  */
 def enableProguardInReleaseBuilds = false
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('gradle.properties').newDataInputStream())
-
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
@@ -111,21 +106,11 @@ android {
     }
 
     signingConfigs {
-        debug {
-            // CodePush updates should not be tested in Debug mode
-        }
-
-        releaseStaging {
-            buildConfigField "String", "CODEPUSH_KEY", '"'+properties.getProperty("code_push_key_production")+'"'
-        }
-
         release {
-            buildConfigField "String", "CODEPUSH_KEY", '"'+properties.getProperty("code_push_key_staging")+'"'
-
-            storeFile file(MYAPP_RELEASE_STORE_FILE)
-            storePassword MYAPP_RELEASE_STORE_PASSWORD
-            keyAlias MYAPP_RELEASE_KEY_ALIAS
-            keyPassword MYAPP_RELEASE_KEY_PASSWORD
+            storeFile file("boredream.jks")
+            storePassword "58421314"
+            keyAlias "boredream"
+            keyPassword "58421314"
         }
     }
 

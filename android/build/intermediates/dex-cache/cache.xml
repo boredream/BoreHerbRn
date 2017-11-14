@@ -3,6 +3,15 @@
 
     <item
         is-multidex="false"
+        jar="E:\code\RN\BoreHerbRn\android\app\build\intermediates\exploded-aar\BoreHerbRn\react-native-code-push\unspecified\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="bc7cefb9f21e4329bbc8e44d10857db7c320c4d2">
+        <dex dex="E:\code\RN\BoreHerbRn\android\app\build\intermediates\pre-dexed\release\BoreHerbRn-react-native-code-push-unspecified_42bf9849fe732d22e83e96015e888f757fc6f347.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="C:\Users\lichunyang\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.13.0\a9283170b7305c8d92d25aff02a6ab7e45d06cbe\okio-1.13.0.jar"
         jumboMode="false"
         optimize="true"
@@ -48,6 +57,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="C:\Users\lichunyang\.gradle\caches\modules-2\files-2.1\net.minidev\json-smart\2.3\7396407491352ce4fa30de92efb158adb76b5b\json-smart-2.3.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="007396407491352ce4fa30de92efb158adb76b5b">
+        <dex dex="E:\code\RN\BoreHerbRn\android\app\build\intermediates\pre-dexed\release\json-smart-2.3_09328d62c579c0f2abd8eec9b1685a5c9c9904b1.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="C:\Users\lichunyang\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp\3.6.0\69edde9fc4b01c9fd51d25b83428837478c27254\okhttp-3.6.0.jar"
         jumboMode="false"
         optimize="true"
@@ -81,6 +99,15 @@
         revision="23.0.1"
         sha1="9809e90be788acdb479b2b44e2112f3295a03068">
         <dex dex="E:\code\RN\BoreHerbRn\android\app\build\intermediates\pre-dexed\debug\infer-annotations-4.0_5138c98aa19f81ff5c9dabc7833e8a0997975648.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\lichunyang\.gradle\caches\modules-2\files-2.1\net.minidev\accessors-smart\1.2\c592b500269bfde36096641b01238a8350f8aa31\accessors-smart-1.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="c592b500269bfde36096641b01238a8350f8aa31">
+        <dex dex="E:\code\RN\BoreHerbRn\android\app\build\intermediates\pre-dexed\release\accessors-smart-1.2_e8a8b9c62782335b5bb01b3ee327ba720ba71cb9.jar" />
     </item>
     <item
         is-multidex="false"
@@ -147,6 +174,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="C:\Users\lichunyang\.gradle\caches\modules-2\files-2.1\org.ow2.asm\asm\5.0.4\da08b8cce7bbf903602a25a3a163ae252435795\asm-5.0.4.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="0da08b8cce7bbf903602a25a3a163ae252435795">
+        <dex dex="E:\code\RN\BoreHerbRn\android\app\build\intermediates\pre-dexed\release\asm-5.0.4_d43cb0182cc0434f1b16a4a874a1ff83ccbca955.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="E:\code\RN\BoreHerbRn\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
         jumboMode="false"
         optimize="true"
@@ -183,12 +219,30 @@
     </item>
     <item
         is-multidex="false"
+        jar="C:\Users\lichunyang\.gradle\caches\modules-2\files-2.1\com.nimbusds\nimbus-jose-jwt\5.1\98dfb9ee74d290afce026a262c6297138a0c8ec4\nimbus-jose-jwt-5.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="98dfb9ee74d290afce026a262c6297138a0c8ec4">
+        <dex dex="E:\code\RN\BoreHerbRn\android\app\build\intermediates\pre-dexed\release\nimbus-jose-jwt-5.1_5ff6a81ef8e0f54f7986e4ba25117cabbc9a149d.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="C:\Users\lichunyang\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp-urlconnection\3.6.0\3f9b16b774f2c36cfd86dd2053d0b3059531dacc\okhttp-urlconnection-3.6.0.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.1"
         sha1="3f9b16b774f2c36cfd86dd2053d0b3059531dacc">
         <dex dex="E:\code\RN\BoreHerbRn\android\app\build\intermediates\pre-dexed\debug\okhttp-urlconnection-3.6.0_974be8cfa5582a874335097994d686b611a486bd.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\lichunyang\.gradle\caches\modules-2\files-2.1\com.github.stephenc.jcip\jcip-annotations\1.0-1\ef31541dd28ae2cefdd17c7ebf352d93e9058c63\jcip-annotations-1.0-1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.1"
+        sha1="ef31541dd28ae2cefdd17c7ebf352d93e9058c63">
+        <dex dex="E:\code\RN\BoreHerbRn\android\app\build\intermediates\pre-dexed\release\jcip-annotations-1.0-1_b248e7afe6c834a84cf4fa392d15774bf77e31ba.jar" />
     </item>
 
 </items>
