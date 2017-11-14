@@ -13,6 +13,14 @@ const path = new Path()
     .arc(0,-40,10)
     .close();
 
+const searchBarPath = new Path()
+    .moveTo(16,0)
+    .lineTo(234, 0)
+    .arc(0,32,8)
+    .lineTo(16, 32)
+    .arc(0,-32,8)
+    .close();
+
 const PAGE_COUNT = 20
 
 export default class Search extends Component {
@@ -22,7 +30,7 @@ export default class Search extends Component {
 
         this.state = {
             searchPage:1,
-            searchKey: '白',
+            searchKey: '',
             searchStatus: 0,
             searchResult: null,
             haveMore: false,
@@ -105,27 +113,45 @@ export default class Search extends Component {
                 }}>
 
                     <TouchableNativeFeedback onPress={() => { this.props.navigation.goBack() }}>
-                        <View style={styles.container}>
+                        <View style={{
+                            width: 48,
+                            height: 56,
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
                             <Image style={commonStyles.icon} source={LocalImg.icon_back}/>
                         </View>
                     </TouchableNativeFeedback>
 
-                    <View style={{width:240, height:32, backgroundColor:'#e5e5e5', flexDirection:'row'}} >
+                    <View style={{width:250, height:32}}>
 
-                        <Image style={{width:16, height:16, margin:8}}
-                               source={LocalImg.icon_search} />
+                        <View style={{width:250, height:32, position: 'absolute'}} >
+                            <Surface width={250} height={32}>
+                                <Shape d={searchBarPath} fill="#e5e5e5" />
+                            </Surface>
+                        </View>
 
-                        <TextInput
-                            underlineColorAndroid="transparent"
-                            placeholder="输入关键词搜索"
-                            placeholderTextColor="#999999"
-                            onChangeText={(searchKey) => this.setState({searchKey})}
-                            value={this.state.searchKey}
-                            style={{flex:1, height:32, fontSize: 14, color: '#666666',padding:0 }}/>
+                        <View style={{width:234, height:32, flexDirection:'row', position: 'absolute'}} >
+                            <Image style={{width:16, height:16, margin:8}}
+                                   source={LocalImg.icon_search} />
+
+                            <TextInput
+                                underlineColorAndroid="transparent"
+                                placeholder="输入关键词搜索"
+                                placeholderTextColor="#999999"
+                                onChangeText={(searchKey) => this.setState({searchKey})}
+                                value={this.state.searchKey}
+                                style={{flex:1, height:32, fontSize: 14, color: '#666666',padding:0 }}/>
+                        </View>
                     </View>
 
                     <TouchableNativeFeedback onPress={() => { this.search() }}>
-                        <View style={styles.container}>
+                        <View style={{
+                            flex: 1,
+                            height: 56,
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
                             <Text style={{fontSize: 14, color: '#999999'}}>搜索</Text>
                         </View>
                     </TouchableNativeFeedback>
@@ -212,12 +238,6 @@ export default class Search extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        width: 56,
-        height: 56,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
     image: {
         width:40,
         height:40,
