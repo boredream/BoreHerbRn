@@ -4,6 +4,7 @@ import HerbItem from '../component/HerbItem'
 import Header from '../component/Header'
 import LocalImg from '../Images'
 import NetInfo from '../NetInfo'
+import codePush from 'react-native-code-push'
 
 export default class Home extends Component {
 
@@ -17,6 +18,8 @@ export default class Home extends Component {
 
     // 组件加载完毕
     componentDidMount() {
+        codePush.sync()
+
         this.fetchData()
     }
 
