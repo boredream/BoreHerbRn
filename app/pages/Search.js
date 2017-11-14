@@ -13,7 +13,7 @@ const path = new Path()
     .arc(0,-40,10)
     .close();
 
-const PAGE_COUNT = 15
+const PAGE_COUNT = 20
 
 export default class Search extends Component {
 

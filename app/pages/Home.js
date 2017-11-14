@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { View, FlatList, Text } from 'react-native'
+import {View, FlatList, Text, RefreshControl} from 'react-native'
 import HerbItem from '../component/HerbItem'
 import Header from '../component/Header'
 import LocalImg from '../Images'
@@ -10,21 +10,23 @@ export default class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            herbs: null
+            herbs: null,
+            refreshing: false,
         };
     }
 
     // 组件加载完毕
     componentDidMount() {
-        this.fetchData(1)
+        this.fetchData()
     }
 
     //网络请求
-    fetchData(page) {
-        limit = 10
-        skip = (page - 1) * limit
+    fetchData() {
+        // 首页只取8条
+        limit = 8
+        skip = 0
 
-        url = NetInfo.url_herb + '?limit='+limit+"&skip="+skip
+        url = NetInfo.url_herb + '?limit=' + limit + "&skip=" + skip
         console.log('url=' + url)
 
         fetch(url, {
@@ -36,6 +38,7 @@ export default class Home extends Component {
 
                 this.setState({
                     herbs: results,
+                    refreshing: false,
                 });
             })
             .catch((error) => {
@@ -56,9 +59,13 @@ export default class Home extends Component {
                 <Header
                     title='首页'
                     leftImage={ LocalImg.icon_side }
-                    onLeftClick={() => { this.props.navigation.navigate('DrawerOpen'); }}
+                    onLeftClick={() => {
+                        this.props.navigation.navigate('DrawerOpen');
+                    }}
                     rightImage={ LocalImg.icon_search }
-                    onRightClick={()=>{ this.props.navigation.navigate('Search'); }}/>
+                    onRightClick={() => {
+                        this.props.navigation.navigate('Search');
+                    }}/>
 
                 { this.renderContent() }
             </View>
@@ -66,7 +73,7 @@ export default class Home extends Component {
     }
 
     renderContent() {
-        if(!this.state.herbs) {
+        if (!this.state.herbs) {
             return (
                 <View style={{
                     flex: 1,
@@ -80,11 +87,11 @@ export default class Home extends Component {
                 </View>
             );
         } else {
-            return(
+            return (
                 <FlatList
                     data={ this.state.herbs }
                     keyExtractor={(item, index) => index}
-                    renderItem={({item})=>{
+                    renderItem={({item}) => {
                         return (
                             <HerbItem
                                 herb={ item }
@@ -92,6 +99,18 @@ export default class Home extends Component {
                             />
                         )
                     }}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={() => {
+                                this.setState({
+                                    refreshing: true
+                                })
+                                this.fetchData()
+                            }}
+                            colors={["#628a25"]}
+                        />
+                    }
                 />
             )
         }
