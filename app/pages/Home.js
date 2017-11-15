@@ -18,7 +18,7 @@ export default class Home extends Component {
 
     // 组件加载完毕
     componentDidMount() {
-        codePush.sync({ installMode: codePush.InstallMode.IMMEDIATE });
+        codePush.sync();
         this.fetchData()
     }
 
