@@ -18,8 +18,7 @@ export default class Home extends Component {
 
     // 组件加载完毕
     componentDidMount() {
-        codePush.sync()
-
+        codePush.sync({ installMode: codePush.InstallMode.IMMEDIATE });
         this.fetchData()
     }
 
@@ -60,7 +59,7 @@ export default class Home extends Component {
             <View style={{flex: 1, backgroundColor: 'white'}}>
 
                 <Header
-                    title='首页'
+                    title='草药通'
                     leftImage={ LocalImg.icon_side }
                     onLeftClick={() => {
                         this.props.navigation.navigate('DrawerOpen');

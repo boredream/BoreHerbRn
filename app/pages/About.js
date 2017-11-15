@@ -1,6 +1,5 @@
 import React, {Component} from "react";
-import { Image, Text, TouchableWithoutFeedback, View } from "react-native";
-import {VerDivider} from "../component/Divider";
+import { Text, View } from "react-native";
 import Header from "../component/Header";
 import LocalImg from "../Images";
 
@@ -24,7 +23,7 @@ export default class About extends Component {
 
                 <View style={{ flex:1, padding: 16}}>
                     <Text style={{fontSize: 14, color:'#666666'}}>
-                        项目基于React Native。{'\n'}{'\n'}
+                        项目基于React Native。{'\n'}
                         数据来源于《本草纲目》
                     </Text>
                 </View>
